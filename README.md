@@ -11,6 +11,7 @@ A full-stack web application that lets users build a personal list of countries 
 | Database  | PostgreSQL 15                 |
 | Container | Docker + Docker Compose       |
 
+
 ---
 
 ## Project Structure
@@ -31,7 +32,8 @@ Dream-Vacation-App/
 ├── .env                    # Environment variables
 └── README.md
 ```
-
+`The folders and files added are as below`
+![alt text](image-4.png)
 ---
 
 ## Prerequisites
@@ -46,7 +48,7 @@ Dream-Vacation-App/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/Dream-Vacation-App.git
+git clone https://github.com/Sola-Royal/Dream-Vacation-App.git
 cd Dream-Vacation-App
 ```
 
@@ -66,11 +68,20 @@ COUNTRIES_API_BASE_URL=https://restcountries.com/v3.1
 
 > ⚠️ For production, change `POSTGRES_PASSWORD` to something strong and never commit secrets to version control.
 
+
 ### 3. Build and start all services
 
-```bash
+```building on the terminal
 docker-compose up --build
 ```
+![alt text](image.png)
+
+## The frontend page
+![alt text](image-2.png)
+
+## The backend page
+![alt text](image-3.png)
+
 
 This single command will:
 1. Build the backend Node.js image
@@ -83,7 +94,7 @@ This single command will:
 
 | Service  | URL                      |
 |----------|--------------------------|
-| Frontend | http://localhost         |
+| Frontend | http://localhost:8081    |
 | Backend  | http://localhost:3001    |
 
 ---
@@ -142,13 +153,4 @@ All three services share the `vacation-net` custom bridge network. Services comm
 
 ---
 
-## Submission Checklist
-
-- [x] `backend/Dockerfile` — Node.js container with dependency install
-- [x] `frontend/Dockerfile` — Multi-stage build (Node build → Nginx serve)
-- [x] `docker-compose.yml` — Orchestrates frontend, backend, and database
-- [x] `.env` — Central environment variable configuration
-- [x] Custom bridge network (`vacation-net`)
-- [x] Named volume for database persistence (`postgres_data`)
-- [x] DB healthcheck ensures backend waits for Postgres to be ready
-- [x] `README.md` — This file
+## Thank you for using this repository.
