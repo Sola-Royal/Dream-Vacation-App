@@ -199,6 +199,30 @@ Images pushed to Docker Hub are tagged automatically based on the Git context:
 - `<branch-name>`: The active branch name (e.g. `main`, `develop`, `dev`).
 - `latest`: Pushed only on the `main` branch.
 
+### Workflows, Secrets, and Image Names (explicit)
+
+- **Workflow files:**
+  - `.github/workflows/backend.yml` (backend CI/CD)
+  - `.github/workflows/frontend.yml` (frontend CI/CD)
+- **Secrets required (Repository → Settings → Secrets and variables → Actions):**
+  - `DOCKER_USERNAME` — Docker Hub username
+  - `DOCKER_TOKEN` — Docker Hub access token (with write permissions)
+- **Docker images pushed to Docker Hub:**
+  - `${DOCKER_USERNAME}/dream-vacation-backend` — tags: `sha` (full commit SHA), branch name, and `latest` (when on `main`)
+  - `${DOCKER_USERNAME}/dream-vacation-frontend` — same tagging strategy as backend
+
+Example pushed image names you will see in Docker Hub:
+
+```
+yourdockeruser/dream-vacation-backend:0a1b2c3d4e...   # commit SHA tag
+yourdockeruser/dream-vacation-backend:dev            # branch tag
+yourdockeruser/dream-vacation-backend:latest         # main branch latest
+
+yourdockeruser/dream-vacation-frontend:0a1b2c3d4e...
+yourdockeruser/dream-vacation-frontend:dev
+yourdockeruser/dream-vacation-frontend:latest
+```
+
 ---
 
 ## Thank you for using this repository.
