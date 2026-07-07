@@ -153,4 +153,76 @@ All three services share the `vacation-net` custom bridge network. Services comm
 
 ---
 
+## CI/CD Pipeline (GitHub Actions)
+
+This project uses automated GitHub Actions workflows to build, test, and deploy both the frontend and backend services:
+- **Backend Workflow**: Defined in [.github/workflows/backend.yml](file:///Ubuntu/home/solaroyal2/Dream-Vacation-App/.github/workflows/backend.yml)
+- **Frontend Workflow**: Defined in [.github/workflows/frontend.yml](file:///Ubuntu/home/solaroyal2/Dream-Vacation-App/.github/workflows/frontend.yml)
+
+### Workflow Trigger Rules
+Both pipelines trigger on:
+- Every push or pull request to the `main`, `dev`, or `develop` branches.
+- File-path filtering is enabled so changes in `frontend/` only trigger the frontend pipeline, and changes in `backend/` only trigger the backend pipeline.
+
+### Multi-Stage Architecture
+
+```mermaid
+graph TD
+    A[Push / PR to main/dev/develop] --> B(CI: Lint & Test)
+    B -->|Success| C{Is it a Push Event?}
+    C -->|Yes| D(CD: Build & Push Docker Image)
+    C -->|No: PR Event| E(End Pipeline)
+    D --> F[Docker Hub Registry]
+```
+
+1. **CI Stage (Lint & Test)**:
+   - Sets up Node.js 18 with caching of npm dependencies.
+   - Installs dependencies using `npm ci`.
+   - Runs code linting (`npm run lint`).
+   - Runs unit tests (`npm run test` using Jest).
+2. **CD Stage (Build & Push)**:
+   - Dependent on the CI stage passing.
+   - Only executes on **push** events to the targeted branches.
+   - Sets up QEMU and Docker Buildx.
+   - Logs into Docker Hub.
+   - Builds the Docker image and tags it dynamically.
+   - Pushes the image to the Docker Hub registry.
+
+### Required GitHub Secrets
+To authenticate and push images to your Docker Hub registry, you must configure the following Repository Secrets in GitHub (`Settings -> Secrets and variables -> Actions`):
+- `DOCKER_USERNAME`: Your Docker Hub username.
+- `DOCKER_TOKEN`: Your Docker Hub Personal Access Token (PAT).
+
+### Image Tagging Strategy
+Images pushed to Docker Hub are tagged automatically based on the Git context:
+- `sha-<commit-sha>`: Explicit commit SHA tag for precise version tracking (e.g. `sha-4a2c71...`).
+- `<branch-name>`: The active branch name (e.g. `main`, `develop`, `dev`).
+- `latest`: Pushed only on the `main` branch.
+
+### Workflows, Secrets, and Image Names (explicit)
+
+- **Workflow files:**
+  - `.github/workflows/backend.yml` (backend CI/CD)
+  - `.github/workflows/frontend.yml` (frontend CI/CD)
+- **Secrets required (Repository → Settings → Secrets and variables → Actions):**
+  - `DOCKER_USERNAME` — Docker Hub username
+  - `DOCKER_TOKEN` — Docker Hub access token (with write permissions)
+- **Docker images pushed to Docker Hub:**
+  - `${DOCKER_USERNAME}/dream-vacation-backend` — tags: `sha` (full commit SHA), branch name, and `latest` (when on `main`)
+  - `${DOCKER_USERNAME}/dream-vacation-frontend` — same tagging strategy as backend
+
+Example pushed image names you will see in Docker Hub:
+
+```
+yourdockeruser/dream-vacation-backend:0a1b2c3d4e...   # commit SHA tag
+yourdockeruser/dream-vacation-backend:dev            # branch tag
+yourdockeruser/dream-vacation-backend:latest         # main branch latest
+
+yourdockeruser/dream-vacation-frontend:0a1b2c3d4e...
+yourdockeruser/dream-vacation-frontend:dev
+yourdockeruser/dream-vacation-frontend:latest
+```
+
+---
+
 ## Thank you for using this repository.
