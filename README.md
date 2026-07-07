@@ -164,6 +164,12 @@ Both pipelines trigger on:
 - Every push or pull request to the `main`, `dev`, or `develop` branches.
 - File-path filtering is enabled so changes in `frontend/` only trigger the frontend pipeline, and changes in `backend/` only trigger the backend pipeline.
 
+`Backend work successfully`
+![backend](image-5.png)
+
+`frontend`
+![frontend](image-6.png)
+
 ### Multi-Stage Architecture
 
 ```mermaid
@@ -180,6 +186,9 @@ graph TD
    - Installs dependencies using `npm ci`.
    - Runs code linting (`npm run lint`).
    - Runs unit tests (`npm run test` using Jest).
+  
+   ![lint test](image-7.png)
+
 2. **CD Stage (Build & Push)**:
    - Dependent on the CI stage passing.
    - Only executes on **push** events to the targeted branches.
@@ -211,7 +220,7 @@ Images pushed to Docker Hub are tagged automatically based on the Git context:
   - `${DOCKER_USERNAME}/dream-vacation-backend` — tags: `sha` (full commit SHA), branch name, and `latest` (when on `main`)
   - `${DOCKER_USERNAME}/dream-vacation-frontend` — same tagging strategy as backend
 
-Example pushed image names you will see in Docker Hub:
+Example pushed image names you will see in Docker Hub:![dockeer hub repo](image-9.png)
 
 ```
 yourdockeruser/dream-vacation-backend:0a1b2c3d4e...   # commit SHA tag
@@ -222,7 +231,8 @@ yourdockeruser/dream-vacation-frontend:0a1b2c3d4e...
 yourdockeruser/dream-vacation-frontend:dev
 yourdockeruser/dream-vacation-frontend:latest
 ```
-
+![front docker](image-10.png)
+![backend](image-11.png) 
 ---
 
 ## Thank you for using this repository.
