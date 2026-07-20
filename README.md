@@ -280,7 +280,7 @@ A separate `docker-compose.prod.yml` is used for deployment (as opposed to the l
 - VPC and subnet: see ![vpc](image-13.png)
 ![subnet](image-12.png)
 - EC2 instance running: see ![EC2 RUNNIN](image-16.png)
-- App running in browser: see ![APP RUNNING](image-18.png)
+- App running in browser: see ![alt text](image-24.png)
 - Successful CI/CD pipeline run: see ![deployed github](image-17.png)
 
 Live app (while the instance is running): `http://16.171.71.183:8081`
