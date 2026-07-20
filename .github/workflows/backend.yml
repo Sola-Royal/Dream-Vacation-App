@@ -45,7 +45,6 @@ jobs:
     name: Build and Push Docker Image (CD)
     runs-on: ubuntu-latest
     needs: lint-and-test
-    # Run CD stage on push events to main/dev/develop branches
     if: github.event_name == 'push'
     steps:
       - name: Checkout repository
@@ -81,7 +80,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          deploy:
+
+  # Deploy Stage: Ship to EC2
+  deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
     needs: build-and-push
