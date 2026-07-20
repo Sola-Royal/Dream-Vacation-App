@@ -82,6 +82,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            REACT_APP_API_URL=http://16.171.71.183:3001
 
   # Deploy Stage: Ship to EC2
   deploy:
