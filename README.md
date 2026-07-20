@@ -235,11 +235,57 @@ yourdockeruser/dream-vacation-frontend:latest
 ![backend](image-11.png) 
 ---
 
+---
+
+## AWS Deployment & CI/CD Pipeline
+
+This project was deployed to AWS EC2 using a fully automated CI/CD pipeline via GitHub Actions.
+
+### Architecture Overview
+
+- **VPC**: Custom VPC (`dream-vpc` , `10.0.0.0/16`) with a public subnet (`dream-subnet`, `10.0.1.0/24`) ![vpc](image-13.png) ![alt text](image-19.png)
+- **Internet Gateway**: `dream-igw`, attached to `dream-vpc` ![alt text](image-20.png)
+- **Route Table**: `dream-rt`, routing `0.0.0.0/0` to the Internet Gateway, associated with `dream-subnet` ![alt text](image-21.png)
+- **EC2 Instance**: Ubuntu 26.04, `t3.micro` (Free Tier eligible in this account/region) ![EC2 RUNNIN](image-16.png)
+- **Security Group**: `dream-sg` allows inound SSH (22), and app ports 8081 (frontend) and 3001 (backend)
+- **Docker**: Installed manually via Docker's official APT repository after the initial user-data bootstrap script failed (see Troubleshooting below) ![alt text](image-23.png)
+
+### CI/CD Pipeline (GitHub Actions)
+
+Two independent workflows — `frontend.yml` and `backend.yml`, each run a 3-stage pipeline on every push to `main`:
+
+1. **Lint and Test (CI)** — installs dependencies, runs ESLint and unit tests
+2. **Build and Push Docker Image (CD)** — builds the Docker image and pushes it to Docker Hub (`solaroyal/dream-vacation-frontend` / `solaroyal/dream-vacation-backend`)
+3. **Deploy to EC2** — SSHs into the EC2 instance, pulls the latest repo via `git clone`/`git pull`, then runs:
+```bash
+   docker compose -f docker-compose.prod.yml pull
+   docker compose -f docker-compose.prod.yml down
+   docker compose -f docker-compose.prod.yml up -d
+```
+
+A separate `docker-compose.prod.yml` is used for deployment (as opposed to the local dev `docker-compose.yml`). it references the pre-built Docker Hub images directly instead of building from source, since the CI pipeline already built and pushed them.
+
+### GitHub Secrets Used
+
+| Secret | Purpose |
+|---|---|
+| `DOCKER_USERNAME` / `DOCKER_TOKEN` | Docker Hub authentication |
+| `EC2_HOST` | EC2 instance public IP |
+| `EC2_USER` | SSH username (`ubuntu`) |
+| `EC2_SSH_KEY` | Private key for SSH access |
+
+##
+### Deliverables
+
+- VPC and subnet: see ![vpc](image-13.png)
+![subnet](image-12.png)
+- EC2 instance running: see ![EC2 RUNNIN](image-16.png)
+- App running in browser: see ![APP RUNNING](image-18.png)
+- Successful CI/CD pipeline run: see ![deployed github](image-17.png)
+
+Live app (while the instance is running): `http://16.171.71.183:8081`
+
+---
 ## Thank you for using this repository.
 
-1  ![vpc](image-13.png)
-![subnet](image-12.png)
 
-![alt text](image-14.png)
-![alt text](image-15.png)
-![alt text](image-16.png)
