@@ -236,3 +236,10 @@ yourdockeruser/dream-vacation-frontend:latest
 ---
 
 ## Thank you for using this repository.
+
+1  ![vpc](image-13.png)
+![subnet](image-12.png)
+
+![alt text](image-14.png)
+![alt text](image-15.png)
+![alt text](image-16.png)
