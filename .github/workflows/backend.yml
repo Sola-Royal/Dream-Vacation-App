@@ -2,7 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ main, dev, develop ]
+    branches: [ main, dev, develop, feature/terraform-infra ]
     paths:
       - 'backend/**'
       - '.github/workflows/backend.yml'
@@ -86,7 +86,7 @@ jobs:
     name: Deploy to EC2
     runs-on: ubuntu-latest
     needs: build-and-push
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/terraform-infra'
     steps:
       - name: SSH and deploy
         uses: appleboy/ssh-action@v1.0.3

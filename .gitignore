@@ -1,3 +1,4 @@
+# Ignore environment variable files
 .env
 backend/.env
 frontend/.env
@@ -5,3 +6,27 @@ frontend/.env
 # Ignore local dependency installs
 frontend/node_modules/
 backend/node_modules/
+
+# Terraform
+terraform/.terraform/s
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/terraform.tfvars
+terraform/*.tfplan
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Claude Code local logs
+.claude/deploy.log
+.claude
+.cmp.json
+CLAUDE.md
+
+
+backend/node_modules/
+frontend/node_modules/
+terraform/.terraform/
+
+terraform/.terraform/
