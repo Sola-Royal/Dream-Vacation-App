@@ -142,6 +142,7 @@ assignment exactly (`http://<ip>` with no port), change the frontend service's p
 - [ ] Screenshot: VPC + subnet in AWS Console, tagged as created by Terraform ![alt text](image-25.png)
 ![alt text](image-26.png)
 - [ ] Screenshot: EC2 instance running (`dream-app-server`) ![alt text](image-27.png)
-- [ ] Screenshot: app in browser
-- [ ] Screenshot: CloudWatch CPU metrics/alarm
+- [ ] Screenshot: app in browser ![alt text](image-30.png)
+- [ ] Screenshot: CloudWatch CPU metrics/alarm 
 - [ ] CI/CD logs: `infra.yml` Terraform apply succeeding + `backend.yml`/`frontend.yml` deploy succeeding ![alt text](image-28.png)
+![alt text](image-29.png)
